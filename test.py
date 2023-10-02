@@ -34,13 +34,14 @@ try:
         if is_task_emoji(task.content):
             continue
         content, content_embedding = task.content, model.encode(task.content)
-        new_name = get_embedding_emoji(model.encode(content), df) + content
+        taskmoji = get_embedding_emoji(content_embedding, df)
+        new_name = taskmoji + content
         try:
             is_success = api.update_task(task_id=task.id, content=new_name)
             if is_success:
-                print(f"Success!Changing {content} to {new_name}")
+                print(f"Success!Adding {taskmoji} to {content}")
             else:
-                print(f"Failed!Changing {content} to {new_name}")
+                print(f"Failed!Adding {taskmoji} to {content}")
 
         except Exception as error:
             print(error)
